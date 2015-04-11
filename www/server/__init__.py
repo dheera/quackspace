@@ -10,9 +10,23 @@ import os
 import socket
 from random import randrange
 import pygeoip
+import pymongo
 
 # geoip = pygeoip.GeoIP('/usr/local/share/geoip/GeoIP.dat', pygeoip.MEMORY_CACHE)
 
+# load settings
+fn = os.path.join('/etc/quackspace-settings.json')
+with open(fn) as f:
+  settings_json = f.read()
+
+settings = json.loads(settings_json)
+
+# mongodb
+client = pymongo.MongoClient(settings['mongodb']['host'], int(settings['mongodb']['port']))
+db = client.quackspace
+db.authenticate(settings['mongodb']['username'], settings['mongodb']['password'])
+
+# flask
 app = Flask(__name__)
 
 @app.before_request
