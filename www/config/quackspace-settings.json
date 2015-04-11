@@ -1,0 +1,18 @@
+{
+
+  "aws": {
+   "id": "",
+   "secret": "",
+  },
+
+  "s3" {
+     "bucket": "files.quack.space"
+  },
+
+  "mongodb": {
+    "host": "",
+    "name": "quackspace"
+    "username": "quackspace",
+    "password": "",
+  }
+}

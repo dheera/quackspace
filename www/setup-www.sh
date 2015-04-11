@@ -13,12 +13,12 @@ echo ""
 read -p "Press [enter] to continue..."
 
 # packages
-sudo apt-get install nginx python-pip python3-pip imagemagick graphicsmagick git exiftool memcached vim uwsgi uwsgi-plugin-python3
-sudo pip3 install boto django flask python3-memcached pygeoip uwsgi
-sudo mkdir /www
-sudo chown -R ubuntu /www
-git clone git@github.com:/dheera/quackspace.git /www/quackspace
-sudo chown -R ubuntu /www/quackspace
+sudo apt-get install nginx python-pip python3-pip imagemagick graphicsmagick git exiftool memcached vim uwsgi uwsgi-plugin-python3 redis-server
+sudo pip3 install boto django flask python3-memcached pygeoip uwsgi redis
+sudo mkdir /quackspace
+sudo chown -R ubuntu /quackspace
+git clone git@github.com:/dheera/quackspace.git /quackspace
+sudo chown -R ubuntu /quackspace
 
 # nginx
 sudo rm /etc/nginx/sites-available/*

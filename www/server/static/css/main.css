@@ -1,0 +1,29 @@
+body {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  user-select:none;
+}
+
+#logo {
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+#logo img {
+  max-width:50%;
+}
+
+#background-text {
+  position:fixed;
+  top:50%;left:50%;width:300px;height:200px;
+  margin-top:-150px;
+  margin-left:-150px;
+  font-size:40px;
+  font-family:Roboto;
+  font-weight:100;
+  color:#c0c0c0;
+  z-index:-10;
+  text-align:center;
+  vertical-align:middle;
+}
