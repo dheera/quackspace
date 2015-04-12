@@ -16,10 +16,16 @@
   <script src="/static/js/main.js"></script>
 </head>
 <body>
+  <div id="container">
+    <div id="logo"><img src="/static/images/quackspace-1024.png"></div>
+    <div id="buttoncontainer">
+      <div class="button"><i class="fa fa-2x fa-upload"></i></div>
+      <div class="button"><i class="fa fa-2x fa-camera"></i></div>
+    </div>
+    <div id="filecontainer"></div>
+    <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+  </div>
   <div id="debug"></div>
   <div id="background-text">Drop files here</div>
-  <div id="logo"><img src="/static/images/quackspace-1024.png"></div>
-  <div id="filedrop"></div>
-  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
 </body>
 </html>
