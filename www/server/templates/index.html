@@ -12,6 +12,10 @@
   <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-icon-57x57px.png" />
   <link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-icon-114x114px.png" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,700" rel="stylesheet" type="text/css">
+  <script>
+    var init_lat = {{ init_lat }};
+    var init_lon = {{ init_lon }};
+  </script>
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/jquery.transit.min.js"></script>
   <script src="/static/js/main.js"></script>
@@ -20,11 +24,16 @@
 <body>
   <div id="container">
     <div id="container-topbar">
-      <div id="topbutton-location" onclick="$('#container-map').slideToggle();google.maps.event.trigger(map, 'resize');reCenterMap();"><i class="fa fa-2x fa-map-marker"></i></div>
+      <div id="topbutton-location" onclick="$('#container-map').slideToggle();$('#container-error').slideUp();google.maps.event.trigger(map, 'resize');reCenterMap();"><i class="fa fa-2x fa-map-marker"></i></div>
       <img src="/static/images/quackspace-1024.png">
     </div>
     <div id="container-map">
       <div id="googleMap" style="width:100%;height:250px;"></div>
+    </div>
+    <div id="container-error">
+      <img src="/static/images/tellus.png" style="height:100px;float:left;margin-right:10px;">
+      <span style="color:#ff8000;"><b>Quack!</b></span><br>
+      We could not geolocate you.<br>Just tell us where you are?
     </div>
     <div id="container-buttons">
       <div class="button"><i class="fa fa-2x fa-upload"></i></div>
@@ -35,6 +44,5 @@
     <!-- <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" /> -->
   </div>
   <!-- <div id="debug"></div> -->
-  <div id="background-text">Drop files here</div>
 </body>
 </html>

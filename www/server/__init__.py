@@ -9,10 +9,14 @@ import json
 import os
 import socket
 from random import randrange
-import pygeoip
+from pprint import pprint
+import geoip2
+import geoip2.database
 import pymongo
 
 # geoip = pygeoip.GeoIP('/usr/local/share/geoip/GeoIP.dat', pygeoip.MEMORY_CACHE)
+
+geoip_reader = geoip2.database.Reader('/usr/local/share/geoip/GeoLite2-City.mmdb')
 
 # load settings
 fn = os.path.join('/etc/quackspace-settings.json')
@@ -46,7 +50,14 @@ def limit_remote_addr():
 
 @app.route('/')
 def get_index():
-  return render_template('index.html')
+  try:
+    response = geoip_reader.city('18.62.0.1') # request.remote_addr)
+    init_lat = response.location.latitude
+    init_lon = response.location.longitude
+  except geoip2.errors.AddressNotFoundError:
+    init_lat = 0
+    init_lon = 0
+  return render_template('index.html', init_lat = init_lat, init_lon = init_lon)
 
 from .views.upload import upload
 app.register_blueprint(upload, url_prefix='/upload')

@@ -26,6 +26,14 @@ body {
   display:none;
 }
 
+#container-error {
+  display:none;
+  font-size:20px;
+  font-family:Roboto;
+  font-weight:100;
+  padding:20px;
+}
+
 #topbutton-location {
   float:right;
   color:#c0c0c0;
@@ -90,7 +98,6 @@ body {
 }
 
 .file {
-  width:100%;
   padding:20px;
   background:#ffffff;
   color:#000000;

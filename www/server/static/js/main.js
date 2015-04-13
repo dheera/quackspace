@@ -1,3 +1,7 @@
+var storage_prefix = init_lat.toString() + ',' + init_lon.toString() + ':';
+var last_lon = localStorage.getItem(storage_prefix + 'lon');
+var last_lat = localStorage.getItem(storage_prefix + 'lat');
+
 extension_fa_mapping = {
   'ps':    'file-pdf-o',
   'pdf':   'file-pdf-o',
@@ -49,35 +53,51 @@ extension_fa_mapping = {
   '':      'file-o'
 }
 
-function showError(error) {
+function onGeoError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation."
+            console.log("User denied the request for Geolocation.")
             break;
         case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Location information is unavailable."
+            console.log("Location information is unavailable.")
             break;
         case error.TIMEOUT:
-            x.innerHTML = "The request to get user location timed out."
+            console.log("The request to get user location timed out.")
             break;
         case error.UNKNOWN_ERROR:
-            x.innerHTML = "An unknown error occurred."
+            console.log("An unknown error occurred.")
             break;
     }
+
+    if(last_lon && last_lat) {
+      position.coords.latitude = last_lat;
+      position.coords.longitude = last_lon;
+    }
+    $('#container-map').slideDown();
+    google.maps.event.trigger(map, 'resize');
+    reCenterMap();
+    $('#container-error').slideDown();
+    onPosition(position);
 }
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(onPosition);
+        navigator.geolocation.watchPosition(onPosition, onGeoError);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
 }
 
-var position = null;
+var position = {
+  'coords': {
+    'latitude': init_lat,
+    'longitude': init_lon
+  }
+};
 
 function onPositionResult(p) {
   console.log('onPositionResult()');
+  $('#container-error').slideUp();
   onPosition(p);
   reCenterMap();
 }
@@ -86,11 +106,15 @@ function reCenterMap() {
   map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
 
+
+
 function onPosition(p) {
     console.log('onPosition()');
     $('#container-loader').transition({ scale: 0 }).slideUp();
     $('#debug').html("Location: " + p.coords.latitude + "," + p.coords.longitude);
     position = p;
+    localStorage.setItem(storage_prefix + 'lat', position.coords.latitude);
+    localStorage.setItem(storage_prefix + 'lon', position.coords.longitude);
     $.get(
       '/search',
       {
@@ -111,6 +135,9 @@ function onPosition(p) {
 var map = null;
 
 $(function() {
+
+  $('img').on('dragstart', function(event) { event.preventDefault(); });
+
   getLocation();
   if(window.File && window.FileList && window.FileReader) {
     var filedrop = $('#filedrop')[0];
@@ -120,7 +147,7 @@ $(function() {
   }
 
   var mapProp = {
-    center:new google.maps.LatLng(42.3543908, -71.0753345),
+    center:new google.maps.LatLng(init_lat, init_lon),
     zoom:16,
     mapTypeId:google.maps.MapTypeId.ROADMAP
   };
@@ -141,6 +168,7 @@ $(function() {
     p.coords.latitude = map.getCenter().lat();
     p.coords.longitude = map.getCenter().lng();
     onPosition(p);
+    $('#container-error').slideUp();
   } );
 })
 
