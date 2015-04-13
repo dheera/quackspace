@@ -78,8 +78,12 @@ var position = null;
 
 function onPositionResult(p) {
   console.log('onPositionResult()');
-  map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
   onPosition(p);
+  reCenterMap();
+}
+
+function reCenterMap() {
+  map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
 
 function onPosition(p) {
