@@ -37,6 +37,33 @@ body {
   padding:20px;
 }
 
+#container-message {
+  display:none;
+  font-size:20px;
+  font-family:Roboto;
+  font-weight:100;
+  padding:20px;
+}
+
+.progress {
+  height:5px;
+  display:inline-block;
+  background:#ff8000;
+  overflow:hidden;
+}
+
+@-webkit-keyframes progress1 {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.progress-animated {
+  -webkit-animation-name: progress1;
+  -webkit-animation-duration: 0.5; 
+  -webkit-animation-iteration-count: infinite;
+}
+
 #topbutton {
   float:right;
   margin:2px;

@@ -166,6 +166,10 @@ function fetchPosition() {
       function(results, textStatus, xhr) {
         console.log(results);
         clearFiles();
+        if(results.length == 0) {
+          $('#container-message').show();
+          $('#container-message').append('<b>Bullshit-free</b> location-based file sharing.<br><br>Drop files here and they\'ll stay here for an hour. Anyone physically nearby can see them. That\'s it.<br><br><div style="font-size:14px;">Obviously, don\'t upload any sensitive files.</div>');
+        }
         $.each(results, function(index, result) {
           appendFile(result['path'], result['time']);
         })
@@ -219,6 +223,7 @@ $(function() {
 function filedrop_onDragOver(e) {
   e.stopPropagation();
   e.preventDefault();
+  user_action = true;
   console.log('filedrop_onDragOver');
   $('body').css('background','#f0f0f0');
 }
@@ -283,11 +288,15 @@ function sortFiles() {
   });
 }
 
+var user_action = false;
+
 function doFiles(files) {
-  console.log('doFiles()');
-  console.log(files);
-  for (var i = 0; i < files.length; i++) {
-    doFile(files[i]);
+  if(user_action) {
+    console.log('doFiles()');
+    console.log(files);
+    for (var i = 0; i < files.length; i++) {
+      doFile(files[i]);
+    }
   }
 }
 
@@ -305,7 +314,7 @@ function doFile(f) {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/upload');
   xhr.onload = function () {
-    $('#container-uierror').slideUp();
+    $('#container-message').slideUp();
     if (xhr.status === 200) {
       console.log('all done: ' + xhr.status);
       fetchPosition();
@@ -314,17 +323,21 @@ function doFile(f) {
     }
   };
   xhr.upload.onprogress = function(e){
-    var done = e.position || e.loaded, total = e.total || e.totalSize
-    var present = Math.floor(done/total*100)
-    $('#container-uierror').slideDown();
-    $('#container-uierror').html(present + '% uploaded')
+    var done = e.loaded || e.position, total = e.total || e.totalSize
+    var percent = Math.floor(done/total*100);
+    $('#container-message').show();
+    if(percent < 100) {
+      $('#container-message').html('Uploading ...<br><div style="width:' + percent + '%;" class="progress"></div>');
+    } else {
+      $('#container-message').html('Processing ...<br><div style="width:' + percent + '%;" class="progress progress-animated"></div>');
+    }
   }
   xhr.onerror = function () {
     if (xhr.status === 413) {
       console.log("Request entity too large");
-      $('#container-uierror').html('<b>Oops!</b> Sorry, this service is limited to files under 50 MB.');
-      $('#container-uierror').slideDown();
-      window.setTimeout("$('#container-uierror').slideUp();", 2000);
+      $('#container-message').html('<b>Oops!</b> Sorry, this service is limited to files under 50 MB.');
+      $('#container-message').show();
+      window.setTimeout("$('#container-message').slideUp();", 2000);
     }
   }
   xhr.send(formData);
