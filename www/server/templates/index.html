@@ -43,7 +43,9 @@
     <div id="container-progress">
     </div>
     <div id="container-files"></div>
-    <input type="file" id="fileInput" accept="application/*,image/*,audio/*,video/*" onchange="doFiles(this.files)" style="visibility:hidden;position:fixed;top:-50;left:-50"/>
+    <form action="#" method="post" enctype="multipart/form-data">
+      <input type="file" id="fileInput" accept="application/*,image/*,audio/*,video/*" onchange="doFiles(this.files)" style="visibility:hidden;position:fixed;top:-50;left:-50"/>
+    </form>
   </div>
   <!-- <div id="debug"></div> -->
 </body>
