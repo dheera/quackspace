@@ -303,6 +303,11 @@ function doFiles(files) {
 function doFile(f) {
   console.log('doFile()');
   console.log(f);
+  if(f.size > 50*1024*1024) {
+    $('#container-message').html('<b>Oops!</b> Sorry, this service is limited to files under 50 MB.');
+    $('#container-message').show();
+    return;
+  }
   var formData = new FormData();
   formData.append('file', f);
   if(position) {
