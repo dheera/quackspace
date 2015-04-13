@@ -18,8 +18,14 @@ upload = Blueprint('upload', __name__, template_folder='../template')
 def do_upload():
   lat = float(request.form.get('lat', 0))
   lon = float(request.form.get('lon', 0))
-  ip = request.remote_addr
-  print(ip + " | " + str(lat) + " | " + str(lon))
+
+  if request.headers.getlist("X-Forwarded-For"):
+    ip = request.headers.getlist("X-Forwarded-For")[0]
+  else:
+    ip = request.remote_addr
+
+  print("upload: " + ip + " | " + str(lat) + " | " + str(lon))
+
   f = request.files.get('file')
   if f:
     uuid_str = uuid.uuid4().hex

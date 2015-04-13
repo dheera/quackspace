@@ -18,7 +18,12 @@ search = Blueprint('search', __name__, template_folder='../template')
 def do_search():
   lat = float(request.args.get('lat', 0))
   lon = float(request.args.get('lon', 0))
-  ip = request.remote_addr
+
+  if request.headers.getlist("X-Forwarded-For"):
+    ip = request.headers.getlist("X-Forwarded-For")[0]
+  else:
+    ip = request.remote_addr
+
   print("search: " + ip + " | " + str(lat) + " | " + str(lon))
 
   db.files.remove({
