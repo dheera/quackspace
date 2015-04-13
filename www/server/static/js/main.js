@@ -159,8 +159,9 @@ function onPosition(p) {
         console.log(results);
         clearFiles();
         $.each(results, function(index, result) {
-          appendFile(result['path']);
+          appendFile(result['path'], result['time']);
         })
+        sortFiles();
       },
       'json'
     );
@@ -235,7 +236,7 @@ function clearFiles() {
   $('#container-files').empty();
 }
 
-function appendFile(path) {
+function appendFile(path, time) {
   filename = path.substring(path.indexOf('/')+1);
 
   var exists = false;
@@ -249,6 +250,7 @@ function appendFile(path) {
 
   divFile = $('<div></div>').addClass('file')
   divFile.data('path', path);
+  divFile.data('time', time);
 
   divFile.click(function() {
     window.location.href = "http://quack.quack.space/" + path;
@@ -258,11 +260,30 @@ function appendFile(path) {
   fa_info = extension_fa_mapping[extension] || {'class':'fa-file-o', 'color':'#808080'};
   divFile.append($('<i style="color:' + fa_info['color'] + '" class="fa fa-2x ' + fa_info['class'] + '"></i>'));
   divFile.append($('<div>' + filename + '</div>'));
-  divFile.appendTo($('#container-files'));
+  divFile.prependTo($('#container-files'));
   return divFile;
 }
 
+function sortFiles() {
+  items = $('#container-files').children();
+  items.sort(function(a,b) {
+    return ( $(a).data('time')<$(b).data('time') ? 1 : -1 );
+  })
+  items.each(function(index, item) {
+    $('#container-files').append(item);
+  });
+}
+
+function doFiles(files) {
+  console.log('doFiles()');
+  console.log(files);
+  for (var i = 0; i < files.length; i++) {
+    doFile(files[i]);
+  }
+}
+
 function doFile(f) {
+  console.log('doFile()');
   console.log(f);
   var formData = new FormData();
   formData.append('file', f);
@@ -278,6 +299,7 @@ function doFile(f) {
     $('#container-uierror').slideUp();
     if (xhr.status === 200) {
       console.log('all done: ' + xhr.status);
+      onPosition(position);
     } else {
       console.log('Something went terribly wrong...');
     }

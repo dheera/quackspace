@@ -36,14 +36,14 @@
       We could not geolocate you.<br>Just tell us where you are?
     </div>
     <div id="container-buttons">
-      <div class="button"><i class="fa fa-2x fa-upload"></i></div>
+      <div class="button" onclick="$('#fileInput').click()"><i class="fa fa-2x fa-upload"></i></div>
       <div class="button"><i class="fa fa-2x fa-camera"></i></div>
     </div>
     <div id="container-loader"><div class="loader"></div></div>
     <div id="container-progress">
     </div>
     <div id="container-files"></div>
-    <!-- <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" /> -->
+    <input type="file" id="fileInput" onchange="doFiles(this.files)" style="visibility:hidden;position:fixed;top:-50;left:-50"/>
   </div>
   <!-- <div id="debug"></div> -->
 </body>
