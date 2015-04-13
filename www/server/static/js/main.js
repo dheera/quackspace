@@ -3,54 +3,88 @@ var last_lon = localStorage.getItem(storage_prefix + 'lon');
 var last_lat = localStorage.getItem(storage_prefix + 'lat');
 
 extension_fa_mapping = {
-  'ps':    'file-pdf-o',
-  'pdf':   'file-pdf-o',
-  'dvi':   'file-pdf-o',
-  'avi':   'file-video-o',
-  'mpg':   'file-video-o',
-  'mp4':   'file-video-o',
-  'mov':   'file-video-o',
-  'mpeg':  'file-video-o',
-  'svg':   'file-image-o',
-  'eps':   'file-image-o',
-  'wmf':   'file-image-o',
-  'xcf':   'file-image-o',
-  'psd':   'file-image-o',
-  'ai':    'file-image-o',
-  'xpm':   'file-image-o',
-  'png':   'file-image-o',
-  'bmp':   'file-image-o',
-  'gif':   'file-image-o',
-  'jpg':   'file-image-o',
-  'jpeg':  'file-image-o',
-  'doc':   'file-word-o',
-  'docx':  'file-word-o',
-  'ppt':   'file-powerpoint-o',
-  'pptx':  'file-powerpoint-o',
-  'xls':   'file-excel-o',
-  'xlsx':  'file-excel-o',
-  'zip':   'file-archive-o',
-  'gz':    'file-archive-o',
-  'rar':   'file-archive-o',
-  'tgz':   'file-archive-o',
-  'tar':   'file-archive-o',
-  'txt':   'file-text-o',
-  'py':    'file-code-o',
-  'pl':    'file-code-o',
-  'c':     'file-code-o',
-  'cpp':   'file-code-o',
-  'js':    'file-code-o',
-  'tex':   'file-code-o',
-  'rb':    'file-code-o',
-  'css':   'file-code-o',
-  'ini':   'file-code-o',
-  'html':  'file-code-o',
-  'xml':   'file-code-o',
-  'mp3':   'file-audio-o',
-  'wav':   'file-audio-o',
-  'aac':   'file-audio-o',
-  'ogg':   'file-audio-o',
-  '':      'file-o'
+  'ps':    {'class':'fa-file-pdf-o', 'color':'#ff0000'},
+  'pdf':   {'class':'fa-file-pdf-o', 'color':'#ff0000'},
+  'dvi':   {'class':'fa-file-pdf-o', 'color':'#ff0000'},
+  'avi':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'mpg':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'mp4':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'mov':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'wmv':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'rm':    {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'asx':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'asf':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'flv':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'm4v':   {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'mpeg':  {'class':'fa-file-video-o', 'color':'#0080cc'},
+  'svg':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'eps':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'wmf':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'xcf':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'psd':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'ai':    {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'xpm':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'png':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'tif':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'tiff':  {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'bmp':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'gif':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'jpg':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'jif':   {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'jiff':  {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'jpeg':  {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'webp':  {'class':'fa-file-image-o', 'color':'#0080cc'},
+  'sxw':   {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'odt':   {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'doc':   {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'dot':   {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'docx':  {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'rtf':   {'class':'fa-file-word-o', 'color':'#6eb81f'},
+  'odp':   {'class':'fa-file-powerpoint-o', 'color':'#6eb81f'},
+  'key':   {'class':'fa-file-powerpoint-o', 'color':'#6eb81f'},
+  'pps':   {'class':'fa-file-powerpoint-o', 'color':'#6eb81f'},
+  'ppt':   {'class':'fa-file-powerpoint-o', 'color':'#6eb81f'},
+  'pptx':  {'class':'fa-file-powerpoint-o', 'color':'#6eb81f'},
+  'gnumeric': {'class':'fa-file-excel-o', 'color':'#6eb81f'},
+  'ods':   {'class':'fa-file-excel-o', 'color':'#6eb81f'},
+  'xls':   {'class':'fa-file-excel-o', 'color':'#6eb81f'},
+  'xlsx':  {'class':'fa-file-excel-o', 'color':'#6eb81f'},
+  'zip':   {'class':'fa-file-archive-o', 'color':'#8f4242'},
+  'gz':    {'class':'fa-file-archive-o', 'color':'#8f4242'},
+  'rar':   {'class':'fa-file-archive-o', 'color':'#8f4242'},
+  'tgz':   {'class':'fa-file-archive-o', 'color':'#8f4242'},
+  'tar':   {'class':'fa-file-archive-o', 'color':'#8f4242'},
+  'txt':   {'class':'fa-file-text-o', 'color':'#cfaf2d'},
+  'dat':   {'class':'fa-file-text-o', 'color':'#cfaf2d'},
+  'log':   {'class':'fa-file-text-o', 'color':'#cfaf2d'},
+  'py':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'pl':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'c':     {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'm':     {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'java':  {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'lua':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'h':     {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'cs':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'sh':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'cpp':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'js':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'tex':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'rb':    {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'css':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'ini':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'html':  {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'xml':   {'class':'fa-file-code-o', 'color':'#cfaf2d'},
+  'mp3':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'm4a':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'm3u':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'wma':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'mid':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'ra':    {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'aif':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'wav':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'aac':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  'ogg':   {'class':'fa-file-audio-o', 'color':'#cc358a'},
+  '':      {'class':'fa-file-o', 'color': '#000000'}
 }
 
 function onGeoError(error) {
@@ -221,8 +255,8 @@ function appendFile(path) {
   });
 
   extension = filename.substring(filename.lastIndexOf('.')+1);
-  fa_class = extension_fa_mapping[extension] || 'file-o';
-  divFile.append('<i class="fa fa-2x fa-' + fa_class + '"></i>');
+  fa_info = extension_fa_mapping[extension] || {'class':'fa-file-o', 'color':'#808080'};
+  divFile.append($('<i style="color:' + fa_info['color'] + '" class="fa fa-2x ' + fa_info['class'] + '"></i>'));
   divFile.append($('<div>' + filename + '</div>'));
   divFile.appendTo($('#container-files'));
   return divFile;
@@ -241,12 +275,27 @@ function doFile(f) {
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/upload');
   xhr.onload = function () {
+    $('#container-uierror').slideUp();
     if (xhr.status === 200) {
       console.log('all done: ' + xhr.status);
     } else {
       console.log('Something went terribly wrong...');
     }
   };
+  xhr.upload.onprogress = function(e){
+    var done = e.position || e.loaded, total = e.total || e.totalSize
+    var present = Math.floor(done/total*100)
+    $('#container-uierror').slideDown();
+    $('#container-uierror').html(present + '% uploaded')
+  }
+  xhr.onerror = function () {
+    if (xhr.status === 413) {
+      console.log("Request entity too large");
+      $('#container-uierror').html('<b>Oops!</b> Sorry, this service is limited to files under 50 MB.');
+      $('#container-uierror').slideDown();
+      window.setTimeout("$('#container-uierror').slideUp();", 2000);
+    }
+  }
   xhr.send(formData);
 }
 

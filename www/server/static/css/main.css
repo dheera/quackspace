@@ -110,8 +110,9 @@ body {
 
 .file i {
   display:inline-block;
-  margin-right:10px;
+  margin-right:12px;
   vertical-align:middle;
+  color:#ff8000;
 }
 
 .file div {

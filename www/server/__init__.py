@@ -42,6 +42,8 @@ bucket = s3.get_bucket(settings['s3']['bucket'])
 # flask
 app = Flask(__name__)
 
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+
 @app.before_request
 def limit_remote_addr():
     print(request.remote_addr)
