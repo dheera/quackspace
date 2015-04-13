@@ -87,6 +87,7 @@ function showPosition(p) {
       },
       function(results, textStatus, xhr) {
         console.log(results);
+        clearFiles();
         $.each(results, function(index, result) {
           filename = result['path'].substring(result['path'].indexOf('/')+1);
           appendFile(filename, result['path'])
@@ -131,16 +132,16 @@ function filedrop_onDrop(e) {
   }
 }
 
+function clearFiles() {
+  $('#filecontainer').empty();
+}
+
 function appendFile(name, path) {
   divFile = $('<div></div>').addClass('file')
 
-  if(path) {
-    divFile.click(function() {
-      window.location.href = "http://quack.quack.space/" + path;
-    });
-  } else {
-    divFile.addClass('file-uploading')
-  }
+  divFile.click(function() {
+    window.location.href = "http://quack.quack.space/" + path;
+  });
 
   extension = name.substring(name.lastIndexOf('.')+1);
   fa_class = extension_fa_mapping[extension] || 'file-o';
@@ -153,7 +154,7 @@ function appendFile(name, path) {
 function doFile(f) {
   console.log(f);
   var formData = new FormData();
-  var divFile = appendFile(f.name);
+  // var divFile = appendFile(f.name);
   formData.append('file', f);
   if(position) {
     formData.append('lat', position.coords.latitude);
