@@ -28,7 +28,7 @@ body {
   padding:20px;
   background:#ffffff;
   vertical-align:middle;
-  line-height:40px;
+  line-height:50px;
 }
 
 
@@ -83,11 +83,11 @@ body {
   background:#f0f0f0;
   color:#a0a0a0;
   cursor:pointer;
-  width:40px;
-  height:40px;
+  width:50px;
+  height:50px;
   text-align:center;
   vertical-align:middle;
-  line-height:40px;
+  line-height:50px;
 }
 
 #topbutton i {
