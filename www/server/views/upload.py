@@ -33,14 +33,16 @@ def do_upload():
   if f:
     uuid_str = uuid.uuid4().hex
     filename = secure_filename(f.filename)
-    local_path = os.path.join('/tmp/', filename)
+    local_path = os.path.join('/tmp/quackspace/', filename)
     s3_path = uuid_str + '/' + filename
     f.save(local_path)
     try:
       key = bucket.new_key(s3_path)
       key.set_contents_from_filename(local_path, reduced_redundancy = True)
     except:
-      os.unlink(local_path)
+      print("Error creating key")
+
+    os.unlink(local_path)
 
     db.files.remove({
       'time': { '$lt': int(time.time())-3600 }
