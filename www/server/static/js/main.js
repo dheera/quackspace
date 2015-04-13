@@ -68,7 +68,7 @@ function showError(error) {
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(showPosition);
+        navigator.geolocation.watchPosition(onPosition);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -76,7 +76,15 @@ function getLocation() {
 
 var position = null;
 
-function showPosition(p) {
+function onPositionResult(p) {
+  console.log('onPositionResult()');
+  map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+  onPosition(p);
+}
+
+function onPosition(p) {
+    console.log('onPosition()');
+    $('#container-loader').transition({ scale: 0 }).slideUp();
     $('#debug').html("Location: " + p.coords.latitude + "," + p.coords.longitude);
     position = p;
     $.get(
@@ -89,13 +97,14 @@ function showPosition(p) {
         console.log(results);
         clearFiles();
         $.each(results, function(index, result) {
-          filename = result['path'].substring(result['path'].indexOf('/')+1);
-          appendFile(filename, result['path'])
+          appendFile(result['path']);
         })
       },
       'json'
     );
 }
+
+var map = null;
 
 $(function() {
   getLocation();
@@ -105,6 +114,30 @@ $(function() {
     window.addEventListener("dragleave", filedrop_onDragLeave, false);
     window.addEventListener("drop", filedrop_onDrop, false);
   }
+
+  var mapProp = {
+    center:new google.maps.LatLng(42.3543908, -71.0753345),
+    zoom:16,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  var circle = new google.maps.Circle({
+    map: map,
+    radius: 100,
+    strokeColor: '#ff8000',
+    strokeOpacity: 0.6,
+    strokeWeight: 2,
+    fillColor: '#ff8000',
+    fillOpacity: 0.35
+  });
+  circle.bindTo('center', map, 'center');
+  google.maps.event.addListener(map, 'dragend', function() {
+    p = new Object();
+    p.coords = new Object();
+    p.coords.latitude = map.getCenter().lat();
+    p.coords.longitude = map.getCenter().lng();
+    onPosition(p);
+  } );
 })
 
 function filedrop_onDragOver(e) {
@@ -133,28 +166,39 @@ function filedrop_onDrop(e) {
 }
 
 function clearFiles() {
-  $('#filecontainer').empty();
+  $('#container-files').empty();
 }
 
-function appendFile(name, path) {
+function appendFile(path) {
+  filename = path.substring(path.indexOf('/')+1);
+
+  var exists = false;
+  $('#container-files').children().each(function() {
+    if($(this).data('path')==path) {
+      exists = true;
+    }
+  });
+
+  if(exists) return;
+
   divFile = $('<div></div>').addClass('file')
+  divFile.data('path', path);
 
   divFile.click(function() {
     window.location.href = "http://quack.quack.space/" + path;
   });
 
-  extension = name.substring(name.lastIndexOf('.')+1);
+  extension = filename.substring(filename.lastIndexOf('.')+1);
   fa_class = extension_fa_mapping[extension] || 'file-o';
   divFile.append('<i class="fa fa-2x fa-' + fa_class + '"></i>');
-  divFile.append($('<div>' + name + '</div>'));
-  divFile.appendTo($('#filecontainer'));
+  divFile.append($('<div>' + filename + '</div>'));
+  divFile.appendTo($('#container-files'));
   return divFile;
 }
 
 function doFile(f) {
   console.log(f);
   var formData = new FormData();
-  // var divFile = appendFile(f.name);
   formData.append('file', f);
   if(position) {
     formData.append('lat', position.coords.latitude);
