@@ -33,6 +33,7 @@ def do_upload():
   if f:
     uuid_str = uuid.uuid4().hex
     filename = secure_filename(f.filename)
+    ensure_dir('/tmp/quackspace/')
     local_path = os.path.join('/tmp/quackspace/', filename)
     s3_path = uuid_str + '/' + filename
     f.save(local_path)
@@ -58,3 +59,8 @@ def do_upload():
     print(local_path)
     return 'http://' + bucket.name + '/' + s3_path
   return "0"
+
+def ensure_dir(f):
+  d = os.path.dirname(f)
+  if not os.path.exists(d):
+    os.makedirs(d)
