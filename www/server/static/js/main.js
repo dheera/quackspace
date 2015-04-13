@@ -168,7 +168,7 @@ function fetchPosition() {
         clearFiles();
         if(results.length == 0) {
           $('#container-message').show();
-          $('#container-message').html('<b>Bullshit-free</b> location-based file sharing.<br><br>Drop files here and they\'ll stay here for an hour. Anyone physically nearby can see them. That\'s it.<br><br><div style="font-size:14px;">Obviously, don\'t upload any sensitive files.</div>');
+          $('#container-message').html('<b>No-login, no-nonsense</b> location-based file sharing.<br><br>Drop files here and they\'ll stay here for an hour. Anyone physically nearby can see them. That\'s it.<br><br><div style="font-size:14px;">Obviously, don\'t upload any sensitive files.</div>');
         }
         $.each(results, function(index, result) {
           appendFile(result['path'], result['time']);
