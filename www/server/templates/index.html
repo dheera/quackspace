@@ -24,7 +24,8 @@
 <body>
   <div id="container">
     <div id="container-topbar">
-      <div id="topbutton-location" onmouseover="$(this).css('opacity',0.7);" onmouseout="$(this).css('opacity',1);" onclick="$('#container-map').slideToggle();$('#container-error').slideUp();google.maps.event.trigger(map, 'resize');reCenterMap();"><i class="fa fa-2x fa-map-marker"></i></div>
+      <div id="topbutton" onmouseover="$(this).css('opacity',0.7);" onmouseout="$(this).css('opacity',1);" onclick="$('#container-map').slideToggle();$('#container-error').slideUp();google.maps.event.trigger(map, 'resize');reCenterMap();"><i class="fa fa-2x fa-map-marker"></i></div>
+      <div id="topbutton" onmouseover="$(this).css('opacity',0.7);" onmouseout="$(this).css('opacity',1);" onclick="$('#fileInput').click();"><i class="fa fa-2x fa-upload"></i></div>
       <img src="/static/images/quackspace-1024.png">
     </div>
     <div id="container-map">
@@ -35,9 +36,9 @@
       <span style="color:#ff8000;"><b>Quack!</b></span><br>
       We could not geolocate you.<br>Just tell us where you are?
     </div>
-    <div id="container-buttons">
+    <!-- <div id="container-buttons">
       <div onmouseover="$(this).css('opacity',0.7);" onmouseout="$(this).css('opacity',1);" class="button" onclick="$('#fileInput').click()"><i class="fa fa-2x fa-upload"></i> UPLOAD</div>
-    </div>
+    </div> -->
     <div id="container-loader"><div class="loader"></div></div>
     <div id="container-progress">
     </div>

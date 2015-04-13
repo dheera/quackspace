@@ -15,11 +15,14 @@ body {
   margin-right:auto;
   padding:20px;
   background:#ffffff;
+  vertical-align:middle;
+  line-height:40px;
 }
 
 
 #container-topbar img {
   max-width:50%;
+  vertical-align:middle;
 }
 
 #container-map {
@@ -34,10 +37,22 @@ body {
   padding:20px;
 }
 
-#topbutton-location {
+#topbutton {
   float:right;
-  color:#c0c0c0;
+  margin:2px;
+  padding:2px;
+  background:#f0f0f0;
+  color:#a0a0a0;
   cursor:pointer;
+  width:40px;
+  height:40px;
+  text-align:center;
+  vertical-align:middle;
+  line-height:40px;
+}
+
+#topbutton i {
+  vertical-align:middle;
 }
 
 #background-text {

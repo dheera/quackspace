@@ -111,12 +111,12 @@ function onGeoError(error) {
     google.maps.event.trigger(map, 'resize');
     reCenterMap();
     $('#container-error').slideDown();
-    onPosition(position);
+    fetchPosition();
 }
 
 function getLocation() {
     if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(onPosition, onGeoError);
+        navigator.geolocation.watchPosition(onPositionResult, onGeoError);
     } else {
         x.innerHTML = "Geolocation is not supported by this browser.";
     }
@@ -132,7 +132,8 @@ var position = {
 function onPositionResult(p) {
   console.log('onPositionResult()');
   $('#container-error').slideUp();
-  onPosition(p);
+  position = p;
+  fetchPosition();
   reCenterMap();
 }
 
@@ -140,20 +141,27 @@ function reCenterMap() {
   map.panTo(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 }
 
+var t_fetchPositionTimeout = null;
+function fetchPositionTimeout() {
+  if(t_fetchPositionTimeout) {
+    clearTimeout(t_fetchPositionTimeout);
+  }
+  t_fetchPositionTimeout = setTimeout(function() {
+    $('#container-loader').transition({ scale: 1, duration: 0 }).slideDown();
+    fetchPosition();
+  }, 1000);
+}
 
-
-function onPosition(p) {
-    console.log('onPosition()');
+function fetchPosition() {
+    console.log('fetchPosition()');
     $('#container-loader').transition({ scale: 0 }).slideUp();
-    $('#debug').html("Location: " + p.coords.latitude + "," + p.coords.longitude);
-    position = p;
     localStorage.setItem(storage_prefix + 'lat', position.coords.latitude);
     localStorage.setItem(storage_prefix + 'lon', position.coords.longitude);
     $.get(
       '/search',
       {
-        'lat': p.coords.latitude,
-        'lon': p.coords.longitude
+        'lat': position.coords.latitude,
+        'lon': position.coords.longitude
       },
       function(results, textStatus, xhr) {
         console.log(results);
@@ -202,7 +210,8 @@ $(function() {
     p.coords = new Object();
     p.coords.latitude = map.getCenter().lat();
     p.coords.longitude = map.getCenter().lng();
-    onPosition(p);
+    position = p;
+    fetchPositionTimeout();
     $('#container-error').slideUp();
   } );
 })
@@ -299,7 +308,7 @@ function doFile(f) {
     $('#container-uierror').slideUp();
     if (xhr.status === 200) {
       console.log('all done: ' + xhr.status);
-      onPosition(position);
+      fetchPosition();
     } else {
       console.log('Something went terribly wrong...');
     }

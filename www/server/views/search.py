@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# /search
+# Searches for files stored either near a geolocation or stored using
+# the same IP address
+
 from flask import Blueprint, render_template, abort, redirect, Response, request
 from jinja2 import TemplateNotFound
 from server import db

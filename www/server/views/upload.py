@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# /upload
+# Uploads a file
+
 from flask import Blueprint, render_template, abort, redirect, Response, request
 from jinja2 import TemplateNotFound
 from server import db

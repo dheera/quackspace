@@ -14,8 +14,6 @@ import geoip2
 import geoip2.database
 import pymongo
 
-# geoip = pygeoip.GeoIP('/usr/local/share/geoip/GeoIP.dat', pygeoip.MEMORY_CACHE)
-
 geoip_reader = geoip2.database.Reader('/usr/local/share/geoip/GeoLite2-City.mmdb')
 
 # load settings
@@ -66,6 +64,9 @@ app.register_blueprint(upload, url_prefix='/upload')
 
 from .views.search import search
 app.register_blueprint(search, url_prefix='/search')
+
+from .views.log import log
+app.register_blueprint(log, url_prefix='/log')
 
 app.jinja_env.globals.update(len=len)
 app.jinja_env.globals.update(min=min)
