@@ -169,6 +169,8 @@ function fetchPosition() {
         if(results.length == 0) {
           $('#container-message').show();
           $('#container-message').html('<b>No-login, no-nonsense</b> location-based file sharing.<br><br>Drop files here and they\'ll stay here for an hour. Anyone physically nearby can see them. That\'s it.<br><br><div style="font-size:14px;">Obviously, don\'t upload any sensitive files.</div>');
+        } else {
+          $('#container-message').hide();
         }
         $.each(results, function(index, result) {
           appendFile(result['path'], result['time']);
@@ -266,9 +268,17 @@ function appendFile(path, time) {
   divFile.data('path', path);
   divFile.data('time', time);
 
+  divFile[0].addEventListener("dragstart",function(e){
+    if(e && e.dataTransfer) {
+      e.dataTransfer.setData("DownloadURL", "http://quack.quack.space/" + path);
+    }
+  },false);
+
   divFile.click(function() {
     window.location.href = "http://quack.quack.space/" + path;
   });
+
+  divFile.attr('draggable', true);
 
   extension = filename.substring(filename.lastIndexOf('.')+1);
   fa_info = extension_fa_mapping[extension] || {'class':'fa-file-o', 'color':'#808080'};
