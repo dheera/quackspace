@@ -21,6 +21,10 @@ def do_search():
   ip = request.remote_addr
   print("search: " + ip + " | " + str(lat) + " | " + str(lon))
 
+  db.files.remove({
+    'time': { '$lt': int(time.time())-3600 }
+  })
+
   results_geo = db.files.find({
     'geo': { '$near': {
       '$geometry': { 'type': 'Point', 'coordinates': [lon, lat] },
