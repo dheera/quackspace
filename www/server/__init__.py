@@ -26,6 +26,15 @@ client = pymongo.MongoClient(settings['mongodb']['host'], int(settings['mongodb'
 db = client.quackspace
 db.authenticate(settings['mongodb']['username'], settings['mongodb']['password'])
 
+# s3
+
+s3 = S3Connection(
+  settings['aws']['id'],
+  settings['aws']['secret']
+)
+
+bucket = s3.get_bucket(settings['s3']['bucket'])
+
 # flask
 app = Flask(__name__)
 
@@ -38,6 +47,12 @@ def limit_remote_addr():
 @app.route('/')
 def get_index():
   return render_template('index.html')
+
+from .views.upload import upload
+app.register_blueprint(upload, url_prefix='/upload')
+
+from .views.search import search
+app.register_blueprint(search, url_prefix='/search')
 
 app.jinja_env.globals.update(len=len)
 app.jinja_env.globals.update(min=min)

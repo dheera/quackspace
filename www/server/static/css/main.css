@@ -89,6 +89,21 @@ body {
   margin-bottom:10px;
 }
 
+.file i {
+  display:inline-block;
+  margin-right:10px;
+  vertical-align:middle;
+}
+
+.file div {
+  display:inline-block;
+  vertical-align:middle;
+  line-height:20px;
+  word-wrap:none;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
 #buttoncontainer {
   display:table;
   width:100%;
