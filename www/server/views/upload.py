@@ -32,6 +32,7 @@ def do_upload():
   f = request.files.get('file')
   if f:
     uuid_str = uuid.uuid4().hex
+    key_str = uuid.uuid4().hex
     filename = secure_filename(f.filename)
     ensure_dir('/tmp/quackspace/')
     local_path = os.path.join('/tmp/quackspace/', filename)
@@ -48,17 +49,25 @@ def do_upload():
     db.files.remove({
       'time': { '$lt': int(time.time())-3600 }
     })
-
-    db.files.insert({
+    
+    insert_object = {
       'geo': { "type": "Point", "coordinates": [ lon, lat ] },
       'ip': ip,
       'time': int(time.time()),
+      'key': key_str,
       'path': s3_path,
-    })
+    }
+
+    db.files.insert(insert_object)
     print(s3_path)
     print(local_path)
-    return 'http://' + bucket.name + '/' + s3_path
-  return "0"
+
+    if '_id' in insert_object:
+      del(insert_object['_id'])
+
+    return json.dumps(insert_object)
+
+  return "{}"
 
 def ensure_dir(f):
   d = os.path.dirname(f)

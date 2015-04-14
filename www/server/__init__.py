@@ -65,8 +65,8 @@ app.register_blueprint(upload, url_prefix='/upload')
 from .views.search import search
 app.register_blueprint(search, url_prefix='/search')
 
-from .views.log import log
-app.register_blueprint(log, url_prefix='/log')
+from .views.delete import delete
+app.register_blueprint(delete, url_prefix='/delete')
 
 app.jinja_env.globals.update(len=len)
 app.jinja_env.globals.update(min=min)

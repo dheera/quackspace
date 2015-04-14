@@ -265,8 +265,27 @@ function appendFile(path, time) {
   if(exists) return;
 
   divFile = $('<div></div>').addClass('file')
+
   divFile.data('path', path);
   divFile.data('time', time);
+
+  if(path in keys) {
+    var deleteButton = $('<div class="file-button"><i class="fa fa-2x fa-trash"></i></div>');
+    deleteButton.click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $.get('/delete',
+        {
+          'key':  keys[$(this).parent().data('path')],
+          'path': $(this).parent().data('path')
+        },
+        function() {
+          fetchPosition();
+        }
+      );
+    });
+    divFile.append(deleteButton);
+  }
 
   divFile[0].addEventListener("dragstart",function(e){
     if(e && e.dataTransfer) {
@@ -283,7 +302,7 @@ function appendFile(path, time) {
   extension = filename.substring(filename.lastIndexOf('.')+1);
   fa_info = extension_fa_mapping[extension] || {'class':'fa-file-o', 'color':'#808080'};
   divFile.append($('<i style="color:' + fa_info['color'] + '" class="fa fa-2x ' + fa_info['class'] + '"></i>'));
-  divFile.append($('<div>' + filename + '</div>'));
+  divFile.append($('<div class="file-filename">' + filename + '</div>'));
   divFile.prependTo($('#container-files'));
   return divFile;
 }
@@ -310,6 +329,12 @@ function doFiles(files) {
   }
 }
 
+try {
+  keys = JSON.parse(localStorage.getItem('keys') || "{}");
+} catch(e) {
+  keys = {};
+}
+
 function doFile(f) {
   console.log('doFile()');
   console.log(f);
@@ -331,7 +356,10 @@ function doFile(f) {
   xhr.onload = function () {
     $('#container-message').slideUp();
     if (xhr.status === 200) {
-      console.log('all done: ' + xhr.status);
+      insert_object = JSON.parse(this.responseText);
+      console.log(insert_object);
+      keys[insert_object['path']] = insert_object['key'];
+      localStorage.setItem('keys', JSON.stringify(keys));
       fetchPosition();
     } else {
       console.log('Something went terribly wrong...');

@@ -160,6 +160,9 @@ body {
   font-size:18px;
   margin-bottom:10px;
   cursor:pointer;
+  white-space:nowrap;
+  word-wrap:none;
+  line-height:50px;
 }
 
 .file i {
@@ -169,12 +172,32 @@ body {
   color:#ff8000;
 }
 
-.file div {
+.file-button {
+  float:right;
+  margin:2px;
+  padding:2px;
+  background:#ffffff;
+  color:#c0c0c0;
+  cursor:pointer;
+  width:50px;
+  height:50px;
+  text-align:right;
+  vertical-align:middle;
+  line-height:50px;
+}
+
+.file-button i {
+  color:#c0c0c0;
+  margin:0;
+  padding:0;
+}
+
+.file-filename {
   display:inline-block;
   width:calc( 100% - 60px );
   overflow:hidden;
+  line-height:50px;
   vertical-align:middle;
-  line-height:20px;
   word-wrap:none;
   white-space:nowrap;
   text-overflow:ellipsis;
