@@ -276,7 +276,7 @@ function appendFile(path, time) {
       e.stopPropagation();
       $.get('/delete',
         {
-          'key':  keys[$(this).parent().data('path')],
+          'key':  keys[$(this).parent().data('path')]['key'],
           'path': $(this).parent().data('path')
         },
         function() {
@@ -356,10 +356,16 @@ function doFile(f) {
   xhr.onload = function () {
     $('#container-message').slideUp();
     if (xhr.status === 200) {
-      insert_object = JSON.parse(this.responseText);
+      try {
+        insert_object = JSON.parse(this.responseText);
+      } catch(e) {
+        insert_object = null;
+      }
       console.log(insert_object);
-      keys[insert_object['path']] = insert_object['key'];
-      localStorage.setItem('keys', JSON.stringify(keys));
+      if(insert_object) {
+        keys[insert_object['path']] = insert_object;
+        localStorage.setItem('keys', JSON.stringify(keys));
+      }
       fetchPosition();
     } else {
       console.log('Something went terribly wrong...');
