@@ -269,14 +269,14 @@ function appendFile(path, time) {
   divFile.data('path', path);
   divFile.data('time', time);
 
-  if(path in keys) {
+  if(path in self_uploads) {
     var deleteButton = $('<div class="file-button"><i class="fa fa-2x fa-trash"></i></div>');
     deleteButton.click(function(e) {
       e.preventDefault();
       e.stopPropagation();
       $.get('/delete',
         {
-          'key':  keys[$(this).parent().data('path')]['key'],
+          'key':  self_uploads[$(this).parent().data('path')]['key'],
           'path': $(this).parent().data('path')
         },
         function() {
@@ -330,9 +330,9 @@ function doFiles(files) {
 }
 
 try {
-  keys = JSON.parse(localStorage.getItem('keys') || "{}");
+  self_uploads = JSON.parse(localStorage.getItem('self_uploads') || "{}");
 } catch(e) {
-  keys = {};
+  self_uploads = {};
 }
 
 function doFile(f) {
@@ -363,8 +363,8 @@ function doFile(f) {
       }
       console.log(insert_object);
       if(insert_object) {
-        keys[insert_object['path']] = insert_object;
-        localStorage.setItem('keys', JSON.stringify(keys));
+        self_uploads[insert_object['path']] = insert_object;
+        localStorage.setItem('self_uploads', JSON.stringify(self_uploads));
       }
       fetchPosition();
     } else {
